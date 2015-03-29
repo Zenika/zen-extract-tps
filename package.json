@@ -1,0 +1,29 @@
+{
+  "name": "zen-extract-tps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "node-harmony": "./node-harmony.sh",
+    "git-extract": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines" : {
+    "node" : ">=0.12.0"
+  },
+  "author": "Swiip",
+  "license": "MIT",
+  "dependencies": {
+    "archiver": "^0.14.3",
+    "bluebird": "^2.9.15",
+    "co": "^4.5.1",
+    "cpr": "^0.4.0",
+    "meow": "^3.1.0",
+    "mkdirp": "^0.5.0",
+    "mz": "^1.3.0",
+    "rimraf": "^2.3.2",
+    "thenify": "^3.1.0"
+  }
+}
