@@ -2,6 +2,8 @@
 
 // jshint esnext: true
 
+'use strict';
+
 const co = require('co');
 const Promise = require('bluebird');
 const thenify = require('thenify');
