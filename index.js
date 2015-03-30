@@ -23,9 +23,9 @@ const cli = meow({
   ].join('\n')
 });
 const trainingName = cli.input[0];
-const additionalBranches = (cli.flags.b || cli.flags.additionalBranch || '')
+const additionalBranches = (cli.flags.b || cli.flags.additionalBranch || '')
   .split(',')
-  .filter((name) => { return name !== ''; });
+  .filter((name) => { return name !== ''; });
 
 var destinationFile = trainingName + '-tps.zip';
 
