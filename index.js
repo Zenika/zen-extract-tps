@@ -15,8 +15,17 @@ const rimraf = thenify(require('rimraf'));
 const cpr = thenify(require('cpr'));
 const archiver = require('archiver');
 
-const cli = meow();
+const cli = meow({
+  help: [
+    'Usage',
+    '  zen-extract-tps <trainingName> [destinationFile] [options]',
+    '  -b, --additional-branch branchName1[,branchName2[,branchName3...]]'
+  ].join('\n')
+});
 const trainingName = cli.input[0];
+const additionalBranches = (cli.flags.b || cli.flags.additionalBranch || '')
+  .split(',')
+  .filter((name) => { return name !== ''; });
 
 var destinationFile = 'tps.zip';
 if(cli.input.length > 1) {
@@ -49,12 +58,7 @@ co(function *() {
       .map(function(branchName) {
         return /^\s*origin\/(tp\d+)$/.exec(branchName)[1];
       })
-      .sort(function(a, b) {
-        function getNumber(branchName) {
-          return parseInt(/tp(\d+)/.exec(branchName)[1]);
-        };
-        return getNumber(a) - getNumber(b);
-      });
+      .concat(additionalBranches);
 
     for (branch of branches) {
       console.log('Checking out and copy', branch);
