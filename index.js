@@ -27,7 +27,7 @@ const additionalBranches = (cli.flags.b || cli.flags.additionalBranch || '')
   .split(',')
   .filter((name) => { return name !== ''; });
 
-var destinationFile = 'tps.zip';
+var destinationFile = trainingName + '-tps.zip';
 
 if(cli.input.length === 0) {
   console.error('You must give a training name as first parameter');
