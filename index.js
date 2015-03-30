@@ -28,6 +28,11 @@ const additionalBranches = (cli.flags.b || cli.flags.additionalBranch || '')
   .filter((name) => { return name !== ''; });
 
 var destinationFile = 'tps.zip';
+
+if(cli.input.length === 0) {
+  console.error('You must give a training name as first parameter');
+  cli.showHelp();
+}
 if(cli.input.length > 1) {
   destinationFile = path.resolve(cli.input[1]);
 }
@@ -82,6 +87,7 @@ co(function *() {
 
   } catch(error) {
     console.log('Error', error);
+    yield rimraf(tmpDirectory);
   }
 
 });
