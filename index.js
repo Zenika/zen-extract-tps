@@ -67,7 +67,7 @@ co(function *() {
       })
       .concat(additionalBranches);
 
-    for (branch of branches) {
+    for (var branch of branches) {
       console.log('Checking out and copy', branch);
 
       yield exec('git checkout ' + branch, { cwd: workDirectory });
