@@ -72,6 +72,8 @@ co(function *() {
 
     yield zip(resultDirectory, destinationFile);
 
+    yield rimraf(tmpDirectory);
+
     console.log('Finished!');
 
   } catch(error) {
