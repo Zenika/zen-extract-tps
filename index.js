@@ -5,9 +5,7 @@
 'use strict';
 
 const co = require('co');
-const Promise = require('bluebird');
 const thenify = require('thenify');
-const fs = require('mz/fs');
 const exec = require('mz/child_process').exec;
 const path = require('path');
 const meow = require('meow');
@@ -43,6 +41,27 @@ const tmpDirectory = path.resolve(os.tmpdir(), cli.pkg.name);
 const workDirectory = path.resolve(tmpDirectory, 'formation-' + trainingName);
 const resultDirectory = path.resolve(tmpDirectory, 'result');
 const gitUrl = 'git@github.com:Zenika/formation-' + trainingName + '.git';
+
+const zip = thenify(function zip(sourceFolder, destinationFile, callback) {
+  var file_system = require('fs');
+
+  var output = file_system.createWriteStream(destinationFile);
+  var archive = archiver('zip');
+
+  output.on('close', function () {
+    callback(null);
+  });
+
+  archive.on('error', function(err){
+    callback(err);
+  });
+
+  archive.pipe(output);
+  archive.bulk([
+    { expand: true, cwd: sourceFolder, src: ['**'], dest: '.'}
+  ]);
+  archive.finalize();
+});
 
 co(function *() {
 
@@ -92,26 +111,4 @@ co(function *() {
     yield rimraf(tmpDirectory);
   }
 
-});
-
-
-const zip = thenify(function zip(sourceFolder, destinationFile, callback) {
-  var file_system = require('fs');
-
-  var output = file_system.createWriteStream(destinationFile);
-  var archive = archiver('zip');
-
-  output.on('close', function () {
-    callback(null);
-  });
-
-  archive.on('error', function(err){
-    callback(err);
-  });
-
-  archive.pipe(output);
-  archive.bulk([
-    { expand: true, cwd: sourceFolder, src: ['**'], dest: '.'}
-  ]);
-  archive.finalize();
 });
