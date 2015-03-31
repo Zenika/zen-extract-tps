@@ -2,6 +2,8 @@
 
 // jshint esnext: true
 
+'use strict';
+
 const co = require('co');
 const Promise = require('bluebird');
 const thenify = require('thenify');
@@ -23,9 +25,9 @@ const cli = meow({
   ].join('\n')
 });
 const trainingName = cli.input[0];
-const additionalBranches = (cli.flags.b || cli.flags.additionalBranch || '')
+const additionalBranches = (cli.flags.b || cli.flags.additionalBranch || '')
   .split(',')
-  .filter((name) => { return name !== ''; });
+  .filter((name) => { return name !== ''; });
 
 var destinationFile = trainingName + '-tps.zip';
 
@@ -65,7 +67,7 @@ co(function *() {
       })
       .concat(additionalBranches);
 
-    for (branch of branches) {
+    for (var branch of branches) {
       console.log('Checking out and copy', branch);
 
       yield exec('git checkout ' + branch, { cwd: workDirectory });
